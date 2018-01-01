@@ -1,0 +1,8 @@
+export const USER = 'USER';
+export const LOGIN = 'LOGIN';
+
+export const CURRENT_USER_REQUEST = 'CURRENT_USER_REQUEST';
+export const CURRENT_USER_SUCCESS = 'CURRENT_USER_SUCCESS';
+
+export const SHOW_GOODS_DETAIL = 'SHOW_GOODS_DETAIL';
+export const CLOSE_GOODS_DETAIL = 'CLOSE_GOODS_DETAIL';
