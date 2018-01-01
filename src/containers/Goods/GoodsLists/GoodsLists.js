@@ -76,7 +76,7 @@ class GoodsLists extends Component {
     const {id,name}=goods
     const {deleteGoods} = this.props
     confirm({
-      title: '确认删除“'+name+'”？',
+      title: '确认删除：“'+name+'”？',
       okText: '删除',
       okType: 'danger',
       cancelText: '取消',
