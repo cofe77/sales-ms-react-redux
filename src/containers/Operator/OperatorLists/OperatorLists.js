@@ -1,54 +1,58 @@
 import React, { Component } from 'react';
-import { Button,Breadcrumb,Table,message } from 'antd';
+import { Button,Breadcrumb,Table,message,Modal } from 'antd';
 import './OperatorLists.css';
-import axios from 'axios';
 
+import {fetchOperatorData,setActiveOperatorData,deleteOperator} from '../../../redux/operator.redux'
+import {connect} from 'react-redux'
 
+import moment from 'moment'
+
+import OperatorUpdate from '../OperatorUpdate/OperatorUpdate'
+import ChangePwd from '../../../components/changePwd/changePwd'
+
+const confirm=Modal.confirm
+
+@connect(
+    state=>state.operator,
+    {fetchOperatorData,setActiveOperatorData,deleteOperator}
+)
 class OperatorLists extends Component {
-
-  state = {
-    data: [],
-    pagination: {},
-    loading: false,
-  };
-  handleTableChange = (pagination, filters, sorter) => {
-    const pager = { ...this.state.pagination };
-    pager.current = pagination.current;
-    this.setState({
-      pagination: pager,
-    });
-    this.fetchGoodsData({
-      ...filters,
-    });
+  constructor(props){
+    super(props)
+    this.state={
+      data: [],
+      pagination: {},
+      loading: false,
+      changePwdModalVisible: false,
+    }
+    this._handleDeleteOperator=this._handleDeleteOperator.bind(this)
   }
-  fetchGoodsData = (params = {}) => {
-    console.log('params:', params);
-    this.setState({ loading: true });
-    var reqData=params.permission?(params.permission[0]!=null?{
-      row:10000,
-      permission:params.permission[0]*1
-    }:{
-      row:10000
-    }):{
-      row:10000
-    };
-    axios.post('/operator/getByParams',reqData).then((response)=>{
-      const pagination = { ...this.state.pagination };
-      // Read total count from server
-      // pagination.total = data.totalCount;
-      pagination.total = response.data[0].count;
-      this.setState({
-        loading: false,
-        data: response.data.slice(1),
-        pagination,
-      });
-    }).catch((error)=>message.error('网络错误！'));
-  };
+  componentWillMount() {
+    if(this.props.operatorCount==0){
+      this.props.fetchOperatorData();
+    }
+  }
   componentDidMount() {
-    this.fetchGoodsData();
+    console.log('did mount')
   }
 
-
+  _handleDeleteOperator=(operator)=>{
+    const {id,name}=operator
+    const {deleteOperator} = this.props
+    confirm({
+      title: '确认删除：“'+name+'”？',
+      okText: '删除',
+      okType: 'danger',
+      cancelText: '取消',
+      onOk() {
+        console.log('OK');
+        deleteOperator(id)
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  }
 
   render() {
     const columns = [{
@@ -70,27 +74,58 @@ class OperatorLists extends Component {
         value: 2,
       }],
       filterMultiple: false,
+      render:(text, record)=><span>{record.permission===1?'普通操作员':'超级管理员'}</span>,
+      width: '20%',
+    },{
+      title: '创建时间',
+      dataIndex: 'createTime',
+      sorter: (a, b) => a.createTime - b.createTime,
+      render:(text, record)=><span>{moment(record.createTime).format('YYYY-MM-DD HH:mm:ss')}</span>,
       width: '20%',
     }, {
       title: '操作',
       render: (text, record) => (
           <div>
-            <Button type="primary" size="small">详情</Button>
-            <Button type="primary" size="small">修改</Button>
-            <Button type="danger" size="small">删除</Button>
+            <Button onClick={()=>{
+              this.props.setActiveOperatorData(record)
+              this.props.history.push('/home/operatorManage/operatorUpdate')
+            }} type="primary" size="small">修改信息</Button>
+            <Button onClick={()=>{
+              this.props.setActiveOperatorData(record)
+              this.setState({
+                changePwdModalVisible:true
+              })
+            }} type="primary" size="small">修改密码</Button>
+            <Button onClick={()=>this._handleDeleteOperator(record)} type="danger" size="small">删除</Button>
           </div>
       ),
     }];
 
     return (
         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+          <Button size="large" type={'primary'} onClick={()=>{
+            this.props.setActiveOperatorData({id:-1})
+            this.props.history.push('/home/operatorManage/operatorUpdate')
+          }}>添加操作员</Button>
           <Table columns={columns}
                  rowKey={record => record.id}
-                 dataSource={this.state.data}
-                 pagination={this.state.pagination}
+                 dataSource={this.props.operatorData}
+                 pagination={this.props.operatorCount}
                  loading={this.state.loading}
-                 onChange={this.handleTableChange}
           />
+          {this.props.activeOperatorId>-1?(
+              <ChangePwd
+                  title={`修改管理员${this.props.activeOperatorData.name}的密码`}
+                  visible={this.state.changePwdModalVisible}
+                  forWitch={{type:'operator',id:this.props.activeOperatorId}}
+                  hideChangePwd={()=>{
+                    this.setState({
+                      changePwdModalVisible:false
+                    })
+                  }}
+                  key={new Date()}
+              />
+          ):null}
         </div>
     );
   }

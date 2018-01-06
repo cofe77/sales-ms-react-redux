@@ -4,11 +4,12 @@ import './Home.css';
 import { Layout, Menu, Modal, Icon } from 'antd';
 import AuthorizedRoute from '../../components/AuthorizedRoute';
 import {connect} from 'react-redux'
-import {fetchGoodsData} from '../../redux/goods.redux'
+import {fetchGoodsData,fetchGoodsTypeData} from '../../redux/goods.redux'
 
 import ContentRoutes from '../../containers/ContentRoutes/ContentRoutes';
 import GoodsLists from '../../containers/Goods/GoodsLists/GoodsLists';
 import OperatorLists from '../../containers/Operator/OperatorLists/OperatorLists';
+import OperatorUpdate from '../../containers/Operator/OperatorUpdate/OperatorUpdate';
 import UsedOrder from '../../containers/Statistics/UsedOrder/UsedOrder';
 import TurnOver from '../../containers/Statistics/TurnOver/TurnOver';
 import SavedBeer from '../../containers/Statistics/SavedBeer/SavedBeer';
@@ -20,7 +21,7 @@ const confirm = Modal.confirm;
 
 @connect(
     null,
-    {fetchGoodsData}
+    {fetchGoodsData,fetchGoodsTypeData}
 )
 class Home extends Component {
   constructor(props){
@@ -39,40 +40,30 @@ class Home extends Component {
     this.setState({ collapsed });
   }
   componentWillMount(){
-    this.props.fetchGoodsData();
+    if(this.props.goodsCount<=0){
+      this.props.fetchGoodsTypeData();
+      this.props.fetchGoodsData();
+    }
   }
 
   componentDidMount(){
     const {pathname} = this.props.location
-    switch (pathname) {
-      case '/home/goodsManage':
-        this.setState({
-          selectedKey: ['1']
-        })
-        break;
-      case '/home/operatorManage':
-        this.setState({
-          selectedKey: ['2']
-        })
-        break;
-      case '/home/statistics/usedOrder':
-        this.setState({
-          selectedKey: ['3'],
-          openKey: ['sub1'],
-        })
-        break;
-      case '/home/statistics/turnOver':
-        this.setState({
-          selectedKey: ['4'],
-          openKey: ['sub1'],
-        })
-        break;
-      case '/home/statistics/savedBeer':
-        this.setState({
-          selectedKey: ['5'],
-          openKey: ['sub1'],
-        })
-        break;
+    if(pathname.split('/').indexOf('goodsManage')>-1){
+      this.setState({
+        selectedKey: ['1']
+      })
+    }else if(pathname.split('/').indexOf('operatorManage')>-1){
+      this.setState({
+        selectedKey: ['2']
+      })
+    }else if(pathname.split('/').indexOf('usedOrder')>-1){
+      this.setState({
+        selectedKey: ['3']
+      })
+    }else if(pathname.split('/').indexOf('turnOver')>-1){
+      this.setState({
+        selectedKey: ['4']
+      })
     }
   }
 
@@ -105,13 +96,6 @@ class Home extends Component {
           openKey: ['sub1'],
         })
         this.props.history.push('/home/statistics/turnOver')
-        break;
-      case '5':
-        this.setState({
-          selectedKey:['5'],
-          openKey: ['sub1'],
-        })
-        this.props.history.push('/home/statistics/savedBeer')
         break;
       case '9':
         confirm({
@@ -170,7 +154,6 @@ class Home extends Component {
               >
                 <Menu.Item key="3">消费单统计</Menu.Item>
                 <Menu.Item key="4">营业额统计</Menu.Item>
-                <Menu.Item key="5">存酒统计</Menu.Item>
               </SubMenu>
               <Menu.Item key="9">
                 <Icon type="file" />
@@ -185,9 +168,9 @@ class Home extends Component {
                 <AuthorizedRoute exact path="/home/welcome" component={Welcome} />
                 <AuthorizedRoute exact path="/home/goodsManage" component={GoodsLists} />
                 <AuthorizedRoute exact path="/home/operatorManage" component={OperatorLists} />
+                <AuthorizedRoute exact path="/home/operatorManage/operatorUpdate" component={OperatorUpdate} />
                 <AuthorizedRoute exact path="/home/statistics/usedOrder" component={UsedOrder} />
                 <AuthorizedRoute exact path="/home/statistics/turnOver" component={TurnOver} />
-                <AuthorizedRoute exact path="/home/statistics/savedBeer" component={SavedBeer} />
                 <AuthorizedRoute component={Welcome} />
               </Switch>
             </Content>

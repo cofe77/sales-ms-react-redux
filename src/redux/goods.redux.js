@@ -79,15 +79,20 @@ function activeGoodsData(data){
 
 export function fetchGoodsData(params={}){
   return async (dispatch)=>{
-    const goodsTypeDataRes = await axios.post('/goodsType/getAll',{})
     const goodsDataRes = await axios.post('/goods/getByParams',{row:10000})
-    if(goodsTypeDataRes.status===200){
-      dispatch(allGoodsTypeData({data:goodsTypeDataRes.data.slice(1),count:goodsTypeDataRes.data[0].count}))
+    if(goodsDataRes.status===200){
+      dispatch(allGoodsData({data:goodsDataRes.data.slice(1),count:goodsDataRes.data[0].count}))
     }else{
       message.error('网络错误！')
     }
-    if(goodsDataRes.status===200){
-      dispatch(allGoodsData({data:goodsDataRes.data.slice(1),count:goodsDataRes.data[0].count}))
+  }
+}
+
+export function fetchGoodsTypeData(){
+  return async (dispatch)=>{
+    const goodsTypeDataRes = await axios.post('/goodsType/getAll',{})
+    if(goodsTypeDataRes.status===200){
+      dispatch(allGoodsTypeData({data:goodsTypeDataRes.data.slice(1),count:goodsTypeDataRes.data[0].count}))
     }else{
       message.error('网络错误！')
     }

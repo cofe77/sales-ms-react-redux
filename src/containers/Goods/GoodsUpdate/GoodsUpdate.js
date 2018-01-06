@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {hideUpdateGoodsModal,addGoods,fetchGoodsDataById,updateGoods} from '../../../redux/goods.redux';
 import {Modal, Button,message,Form, Select, Input, Radio,InputNumber } from 'antd';
 import ImgCropper from '../../../components/imgCropper/imgCropper'
 import './GoodsUpdate.css';
-import axios from 'axios';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const {TextArea} = Input;

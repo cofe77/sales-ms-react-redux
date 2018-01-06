@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button,Breadcrumb,Table,message,Modal,Input, Icon } from 'antd';
-import {fetchGoodsData,showGoodsDetailModal,showUpdateGoodsModal,deleteGoods} from '../../../redux/goods.redux'
+import {fetchGoodsData,fetchGoodsTypeData,showGoodsDetailModal,showUpdateGoodsModal,deleteGoods} from '../../../redux/goods.redux'
 import { connect } from "react-redux";
 import './GoodsLists.css';
 
@@ -11,7 +11,7 @@ const confirm = Modal.confirm;
 
 @connect(
     state=>state.goods,
-    {fetchGoodsData,showGoodsDetailModal,showUpdateGoodsModal,deleteGoods}
+    {fetchGoodsData,fetchGoodsTypeData,showGoodsDetailModal,showUpdateGoodsModal,deleteGoods}
 )
 class GoodsLists extends Component {
 
@@ -31,17 +31,18 @@ class GoodsLists extends Component {
     this.setState({ searchText: e.target.value });
   }
   handleTableChange = (pagination, filters, sorter) => {
-    // const pager = { ...this.state.pagination };
-    // pager.current = pagination.current;
-    // this.setState({
-    //   pagination: pager,
-    // });
-    // this.fetchGoodsData({
-    //   ...filters,
-    // });
+    const pager = { ...this.state.pagination };
+    pager.current = pagination.current;
+    this.setState({
+      pagination: pager,
+    });
+    this.props.fetchGoodsData({
+      ...filters,
+    });
   }
   componentDidMount() {
     if(this.props.goodsCount<=0){
+      this.props.fetchGoodsTypeData();
       this.props.fetchGoodsData();
     }
   }
@@ -143,6 +144,7 @@ class GoodsLists extends Component {
     return (
       <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
         <Button type="primary" size="large" onClick={()=>this.props.showUpdateGoodsModal(0)}>添加商品</Button>
+        <Button type="primary" size="large" onClick={()=>this.props.showUpdateGoodsModal(0)}>商品类别管理</Button>
         <Table columns={columns}
                rowKey={record => record.id}
                dataSource={dataSource}
