@@ -5,9 +5,9 @@ import {Modal} from 'antd'
 class OrderDetail extends React.Component{
   render(){
     return (
-        <Modal>
-          <h2>OrderDetail</h2>
-        </Modal>
+      <Modal>
+        <h2>OrderDetail</h2>
+      </Modal>
     )
   }
 }

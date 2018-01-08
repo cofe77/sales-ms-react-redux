@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {hideUpdateGoodsModal,addGoods,fetchGoodsDataById,updateGoods} from '../../../redux/goods.redux';
-import {Modal, Button,message,Form, Select, Input, Radio,InputNumber } from 'antd';
+import {Modal, Button,Form, Select, Input,InputNumber } from 'antd';
 import ImgCropper from '../../../components/imgCropper/imgCropper'
 import './GoodsUpdate.css';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const {TextArea} = Input;
-const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
 
 @connect(
     state=>state.goods,
@@ -110,119 +108,119 @@ class GoodsUpdateForm extends Component {
       wrapperCol: { span: 14 },
     };
     return (
-        <div>
-          <Modal
-              title={this.state.isAddNew?'添加商品':'修改商品信息'}
-              visible={this.props.goodsUpdateModalVisible}
-              onCancel={this._handleCancel}
-              footer={null}
-              maskClosable={false}
-          >
-            <Form>
-              <FormItem
-                  {...formItemLayout}
-                  label="名称"
-                  hasFeedback
-              >
-                {getFieldDecorator('name', {
-                  rules: [{
-                    required: true, message: '请输入商品名称！',
-                  },{
-                    validator: this._handleInputGoodsName
-                  }],
-                })(
-                    <Input
-                        placeholder="请输入商品名称！"
-                    />
-                )}
-              </FormItem>
-
-              <FormItem
-                  {...formItemLayout}
-                  label="价格"
-                  hasFeedback
-              >
-                {getFieldDecorator('price', {
-                  rules: [{
-                    required: true, message: '请输入正确的商品价格！',type:'number'
-                  }],
-                })(
-                    <InputNumber min={0} max={10000} />
-                )}
-                <span className="ant-form-text"> 元</span>
-              </FormItem>
-
-
-              <FormItem
-                  {...formItemLayout}
-                  label="类别"
-                  hasFeedback
-              >
-                {getFieldDecorator('typeId', {
-                  rules: [
-                    { required: true, message: '请选择商品类别！' }
-                  ],
-                })(
-                    <Select placeholder="请选择商品类别！">
-                      {this.props.goodsTypeData.map(v=><Option key={v.id} value={v.id}>{v.name}</Option>)}
-                    </Select>
-                )}
-              </FormItem>
-
-              <FormItem
-                  {...formItemLayout}
-                  label="图片"
-                  hasFeedback
-              >
-                {getFieldDecorator('photo', {
-                  rules: [
-                    { required: true, message: '请选择图片！' },
-                  ]
-                })(
-                    <Button icon="file" type="primary" onClick={()=>{
-                      this.setState({
-                        imgCropperModalVisible:true
-                      })
-                    }}>{this.state.isAddNew?'请选择图片':'重新选择图片'}</Button>
-                )}
-              </FormItem>
-
-              {this.state.photo===''?null:(
-                  <FormItem
-                      {...formItemLayout}
-                      label=""
-                      hasFeedback
-                  >
-                    <img style={{marginLeft:150}} width={150} height={150} src={this.state.photo.split(',').length>1?this.state.photo:"/"+this.props.activeGoodsData.photoUrl} alt=""/>
-                  </FormItem>
+      <div>
+        <Modal
+            title={this.state.isAddNew?'添加商品':'修改商品信息'}
+            visible={this.props.goodsUpdateModalVisible}
+            onCancel={this._handleCancel}
+            footer={null}
+            maskClosable={false}
+        >
+          <Form>
+            <FormItem
+                {...formItemLayout}
+                label="名称"
+                hasFeedback
+            >
+              {getFieldDecorator('name', {
+                rules: [{
+                  required: true, message: '请输入商品名称！ ',
+                },{
+                  validator: this._handleInputGoodsName
+                }],
+              })(
+                  <Input
+                      placeholder="请输入商品名称！"
+                  />
               )}
+            </FormItem>
 
-              <FormItem
-                  {...formItemLayout}
-                  label="简介"
-                  hasFeedback
-              >
-                {getFieldDecorator('describe', {
-                  rules: [{
-                    required: true, message: '请输入商品简介，将在点餐界面显示！',
-                  },{
-                    max: 50, message: '商品简介过长！',
-                  }],
-                })(
-                    <TextArea rows={4} />
-                )}
-              </FormItem>
+            <FormItem
+                {...formItemLayout}
+                label="价格"
+                hasFeedback
+            >
+              {getFieldDecorator('price', {
+                rules: [{
+                  required: true, message: '请输入正确的商品价格！',type:'number'
+                }],
+              })(
+                <InputNumber min={0} max={10000} />
+              )}
+              <span className="ant-form-text"> 元</span>
+            </FormItem>
 
+
+            <FormItem
+                {...formItemLayout}
+                label="类别"
+                hasFeedback
+            >
+              {getFieldDecorator('typeId', {
+                rules: [
+                  { required: true, message: '请选择商品类别！' }
+                ],
+              })(
+                <Select placeholder="请选择商品类别！">
+                  {this.props.goodsTypeData.map(v=><Option key={v.id} value={v.id}>{v.name}</Option>)}
+                </Select>
+              )}
+            </FormItem>
+
+            <FormItem
+                {...formItemLayout}
+                label="图片"
+                hasFeedback
+            >
+              {getFieldDecorator('photo', {
+                rules: [
+                  { required: true, message: '请选择图片！' },
+                ]
+              })(
+                <Button icon="file" type="primary" onClick={()=>{
+                  this.setState({
+                    imgCropperModalVisible:true
+                  })
+                }}>{this.state.isAddNew?'请选择图片':'重新选择图片'}</Button>
+              )}
+            </FormItem>
+
+            {this.state.photo===''?null:(
               <FormItem
-                  wrapperCol={{ span: 12, offset: 6 }}
+                {...formItemLayout}
+                label=""
+                hasFeedback
               >
-                <Button type="primary" onClick={this._handleCancel}>取消</Button>
-                <Button type="primary" onClick={this._handleAddConfirm}>{this.state.isAddNew?'确认添加':'确认修改'}</Button>
+                <img style={{marginLeft:150}} width={150} height={150} src={this.state.photo.split(',').length>1?this.state.photo:"/"+this.props.activeGoodsData.photoUrl} alt=""/>
               </FormItem>
-            </Form>
-          </Modal>
-          <ImgCropper cropperImgEnd={this._cropperImgEnd} _handleCancelCropper={this._handleCancelCropper} visible={this.state.imgCropperModalVisible} imgSrc={this.state.imgSrc} />
-        </div>
+            )}
+
+            <FormItem
+                {...formItemLayout}
+                label="简介"
+                hasFeedback
+            >
+              {getFieldDecorator('describe', {
+                rules: [{
+                  required: true, message: '请输入商品简介，将在点餐界面显示！',
+                },{
+                  max: 50, message: '商品简介过长！',
+                }],
+              })(
+                  <TextArea rows={4} />
+              )}
+            </FormItem>
+
+            <FormItem
+                wrapperCol={{ span: 12, offset: 6 }}
+            >
+              <Button type="primary" onClick={this._handleCancel}>取消</Button>
+              <Button type="primary" onClick={this._handleAddConfirm}>{this.state.isAddNew?'确认添加':'确认修改'}</Button>
+            </FormItem>
+          </Form>
+        </Modal>
+        <ImgCropper cropperImgEnd={this._cropperImgEnd} _handleCancelCropper={this._handleCancelCropper} visible={this.state.imgCropperModalVisible} imgSrc={this.state.imgSrc} />
+      </div>
     );
   }
 }

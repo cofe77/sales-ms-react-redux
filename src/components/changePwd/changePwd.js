@@ -79,67 +79,67 @@ class ChangePwdForm extends React.Component{
       wrapperCol: { span: 14 },
     };
     return (
-        <Modal
-            title={this.props.title}
-            visible={this.props.visible}
-            okText={'确认修改'}
-            cancelText={'取消'}
-            onOk={this._handleOk}
-            onCancel={()=>this.props.hideChangePwd()}
+      <Modal
+          title={this.props.title}
+          visible={this.props.visible}
+          okText={'确认修改'}
+          cancelText={'取消'}
+          onOk={this._handleOk}
+          onCancel={()=>this.props.hideChangePwd()}
+      >
+      <Form>
+        {/*旧密码*/}
+        <FormItem
+            {...formItemLayout}
+            label={'旧密码'}
+            hasFeedback
         >
-        <Form>
-          {/*旧密码*/}
-          <FormItem
-              {...formItemLayout}
-              label={'旧密码'}
-              hasFeedback
-          >
-            {getFieldDecorator('password',{
-              rules:[
-                  {required:true,message:'请输入旧密码'},
-                  ]
-            })(
-               <Input type="password" placeholder="请输入旧密码" />
-            )}
-          </FormItem>
-          {/*新密码*/}
-          <FormItem
-              {...formItemLayout}
-              label={'新密码'}
-              hasFeedback
-          >
-            {getFieldDecorator('newPassword',{
-              rules:[
-                  {required:true,message:'请输入新密码'},{
-                  validator:this._checkConfirm
-                },{
-                  max:10,message:'密码长度6-10位'
-                },{
-                  min:6,message:'密码长度6-10位'
-                }
-                  ]
-            })(
-               <Input type="password" placeholder="请输入新密码" />
-            )}
-          </FormItem>
-          {/*确认新密码*/}
-          <FormItem
-              {...formItemLayout}
-              label={'确认新密码'}
-              hasFeedback
-          >
-            {getFieldDecorator('confirmPwd',{
-              rules:[
-                  {required:true,message:'请确认新密码'},{
-                    validator:this._checkPassword
-                }
-                  ]
-            })(
-               <Input type="password" placeholder="请确认新密码" onBlur={this._handleConfirmBlur} />
-            )}
-          </FormItem>
-        </Form>
-        </Modal>
+          {getFieldDecorator('password',{
+            rules:[
+                {required:true,message:'请输入旧密码'},
+                ]
+          })(
+             <Input type="password" placeholder="请输入旧密码" />
+          )}
+        </FormItem>
+        {/*新密码*/}
+        <FormItem
+            {...formItemLayout}
+            label={'新密码'}
+            hasFeedback
+        >
+          {getFieldDecorator('newPassword',{
+            rules:[
+                {required:true,message:'请输入新密码'},{
+                validator:this._checkConfirm
+              },{
+                max:10,message:'密码长度6-10位'
+              },{
+                min:6,message:'密码长度6-10位'
+              }
+                ]
+          })(
+             <Input type="password" placeholder="请输入新密码" />
+          )}
+        </FormItem>
+        {/*确认新密码*/}
+        <FormItem
+            {...formItemLayout}
+            label={'确认新密码'}
+            hasFeedback
+        >
+          {getFieldDecorator('confirmPwd',{
+            rules:[
+                {required:true,message:'请确认新密码'},{
+                  validator:this._checkPassword
+              }
+                ]
+          })(
+             <Input type="password" placeholder="请确认新密码" onBlur={this._handleConfirmBlur} />
+          )}
+        </FormItem>
+      </Form>
+      </Modal>
     )
   }
 

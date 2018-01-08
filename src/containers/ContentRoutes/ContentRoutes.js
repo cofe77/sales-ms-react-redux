@@ -7,17 +7,17 @@ import GoodsLists from '../../containers/Goods/GoodsLists/GoodsLists';
 import OperatorLists from '../../containers/Operator/OperatorLists/OperatorLists';
 import Welcome from '../../components/Welcome';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content } = Layout;
 
 class ContentRoutes extends Component {
 
   render() {
     return (
-        <Content style={{ margin: '0 16px' }}>
-          <Route exact path="/" component={Welcome} />
-          <AuthorizedRoute path="/goodsManage" component={GoodsLists} />
-          <AuthorizedRoute path="/operatorManage" component={OperatorLists} />
-        </Content>
+      <Content style={{ margin: '0 16px' }}>
+        <Route exact path="/" component={Welcome} />
+        <AuthorizedRoute path="/goodsManage" component={GoodsLists} />
+        <AuthorizedRoute path="/operatorManage" component={OperatorLists} />
+      </Content>
     );
   }
 }

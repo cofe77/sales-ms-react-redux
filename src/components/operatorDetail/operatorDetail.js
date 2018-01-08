@@ -5,9 +5,9 @@ import {Modal} from 'antd'
 class OperatorDetail extends React.Component{
   render(){
     return (
-        <Modal>
-          <h2>OperatorDetail</h2>
-        </Modal>
+      <Modal>
+        <h2>OperatorDetail</h2>
+      </Modal>
     )
   }
 }

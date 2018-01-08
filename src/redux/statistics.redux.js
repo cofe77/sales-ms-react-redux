@@ -23,7 +23,6 @@ export function fetchStatisticsData(params={},days){
     if(orderRes.status===200&&orderRes.data.isSuccess===true){
       message.success('获取数据成功！')
       var {startTime}=params
-      const endDay=new Date(params.endTime)
       var dateDays=[]
       var tempOrderData=[]
       for(var i=0;i<days;i++){

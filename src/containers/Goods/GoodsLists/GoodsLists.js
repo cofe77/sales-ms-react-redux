@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button,Breadcrumb,Table,message,Modal,Input, Icon } from 'antd';
+import { Button,Table,Modal,Input, Icon } from 'antd';
 import {fetchGoodsData,fetchGoodsTypeData,showGoodsDetailModal,showUpdateGoodsModal,deleteGoods} from '../../../redux/goods.redux'
 import { connect } from "react-redux";
 import './GoodsLists.css';
@@ -62,10 +62,10 @@ class GoodsLists extends Component {
         return {
           ...record,
           name: (
-              <span>
-              {record.name.split(reg).map((text, i) => (
-                  i > 0 ? [<span className="highlight" key={i}>{match[0]}</span>, text] : text
-              ))}
+            <span>
+            {record.name.split(reg).map((text, i) => (
+                i > 0 ? [<span className="highlight" key={i}>{match[0]}</span>, text] : text
+            ))}
             </span>
           ),
         };
@@ -98,16 +98,16 @@ class GoodsLists extends Component {
       dataIndex: 'name',
       width: '20%',
       filterDropdown: (
-          <div className="custom-filter-dropdown">
-            <Input
-                ref={ele => this.searchInput = ele}
-                placeholder="商品名称"
-                value={this.state.searchText}
-                onChange={this._onInputChange}
-                onPressEnter={this._onSearch}
-            />
-            <Button type="primary" onClick={this._onSearch}>搜索</Button>
-          </div>
+        <div className="custom-filter-dropdown">
+          <Input
+              ref={ele => this.searchInput = ele}
+              placeholder="商品名称"
+              value={this.state.searchText}
+              onChange={this._onInputChange}
+              onPressEnter={this._onSearch}
+          />
+          <Button type="primary" onClick={this._onSearch}>搜索</Button>
+        </div>
       ),
       filterIcon: <Icon type="search" style={{ color: this.state.filtered ? '#108ee9' : '#aaa' }} />,
       filterDropdownVisible: this.state.filterDropdownVisible,
@@ -130,11 +130,11 @@ class GoodsLists extends Component {
     }, {
       title: '操作',
       render: (text, record) => (
-          <div>
-            <Button type="primary" size="small" onClick={()=>this.props.showGoodsDetailModal(record.id)}>详情</Button>
-            <Button type="primary" size="small" onClick={()=>this.props.showUpdateGoodsModal(record.id)}>修改信息</Button>
-            <Button type="danger" size="small" onClick={()=>this._handleDeleteGoods(record)}>删除</Button>
-          </div>
+        <div>
+          <Button type="primary" size="small" onClick={()=>this.props.showGoodsDetailModal(record.id)}>详情</Button>
+          <Button type="primary" size="small" onClick={()=>this.props.showUpdateGoodsModal(record.id)}>修改信息</Button>
+          <Button type="danger" size="small" onClick={()=>this._handleDeleteGoods(record)}>删除</Button>
+        </div>
       ),
     }];
     const dataSource=this.state.filtered?this.state.dataSource:this.props.goodsData

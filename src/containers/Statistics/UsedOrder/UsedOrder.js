@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button,Breadcrumb,Table,DatePicker } from 'antd';
+import { Button,Table,DatePicker } from 'antd';
 import moment from 'moment'
 import {connect} from 'react-redux'
 import {fetchOrderData} from '../../../redux/order.redux'
@@ -114,77 +114,77 @@ class UsedOrder extends Component {
     }];
 
     return (
-        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <div style={{ marginBottom:10}}>
-          <RangePicker
-              showTime={{
-                hideDisabledOptions: true,
-                defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
-              }}
-              format="YYYY-MM-DD HH:mm:ss"
-              onChange={this._onDatePickerChange}
-              onOk={()=>{
-                this.props.fetchOrderData({dateValue:this.state.dateValue})
-              }}
-          />
-          <Button style={{ marginLeft:10}} type={this.state.selectedBtn==='today'?'primary':''} onClick={()=>{
-            var todayStartTime=new Date()
-            todayStartTime.setHours(0)
-            todayStartTime.setMinutes(0)
-            todayStartTime.setSeconds(0)
-            todayStartTime.setMilliseconds(0)
-            this.props.fetchOrderData({
-              dateValue:{
-                timeStart:todayStartTime.getTime(),
-                timeEnd:new Date().getTime(),
-                timeName:'finishedTime'
-              }
-            })
-            this.setState({
-              selectedBtn:'today'
-            })
-          }}>今日订单</Button>
-          <Button type={this.state.selectedBtn==='currentMonth'?'primary':''} onClick={()=>{
-            var currentMonthStartTime=new Date()
-            currentMonthStartTime.setDate(1)
-            currentMonthStartTime.setHours(0)
-            currentMonthStartTime.setMinutes(0)
-            currentMonthStartTime.setSeconds(0)
-            currentMonthStartTime.setMilliseconds(0)
-            this.props.fetchOrderData({
-              dateValue:{
-                timeStart:currentMonthStartTime.getTime(),
-                timeEnd:new Date().getTime(),
-                timeName:'finishedTime'
-              }
-            })
-            this.setState({
-              selectedBtn:'currentMonth'
-            })
-          }}>本月订单</Button>
-          <Button type={this.state.selectedBtn==='all'?'primary':''} onClick={()=>{
-            this.props.fetchOrderData({
-              dateValue:{
-                timeStart:1262278861000,
-                timeEnd:new Date().getTime(),
-                timeName:'finishedTime'
-              }
-            })
-            this.setState({
-              selectedBtn:'all'
-            })
-          }}>所有订单</Button>
-          </div>
-          <Table columns={columns}
-                 rowKey={record => record.id}
-                 dataSource={this.props.orderData}
-                 pagination={this.props.orderCount}
-                 loading={this.state.loading}
-          />
-          {this.state.vipDetailModalVisible?<VipDetail />:null}
-          {this.state.operatorDetailModalVisible?<OperatorDetail />:null}
-          {this.state.orderDetailModalVisible?<OrderDetail />:null}
+      <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+        <div style={{ marginBottom:10}}>
+        <RangePicker
+            showTime={{
+              hideDisabledOptions: true,
+              defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
+            }}
+            format="YYYY-MM-DD HH:mm:ss"
+            onChange={this._onDatePickerChange}
+            onOk={()=>{
+              this.props.fetchOrderData({dateValue:this.state.dateValue})
+            }}
+        />
+        <Button style={{ marginLeft:10}} type={this.state.selectedBtn==='today'?'primary':''} onClick={()=>{
+          var todayStartTime=new Date()
+          todayStartTime.setHours(0)
+          todayStartTime.setMinutes(0)
+          todayStartTime.setSeconds(0)
+          todayStartTime.setMilliseconds(0)
+          this.props.fetchOrderData({
+            dateValue:{
+              timeStart:todayStartTime.getTime(),
+              timeEnd:new Date().getTime(),
+              timeName:'finishedTime'
+            }
+          })
+          this.setState({
+            selectedBtn:'today'
+          })
+        }}>今日订单</Button>
+        <Button type={this.state.selectedBtn==='currentMonth'?'primary':''} onClick={()=>{
+          var currentMonthStartTime=new Date()
+          currentMonthStartTime.setDate(1)
+          currentMonthStartTime.setHours(0)
+          currentMonthStartTime.setMinutes(0)
+          currentMonthStartTime.setSeconds(0)
+          currentMonthStartTime.setMilliseconds(0)
+          this.props.fetchOrderData({
+            dateValue:{
+              timeStart:currentMonthStartTime.getTime(),
+              timeEnd:new Date().getTime(),
+              timeName:'finishedTime'
+            }
+          })
+          this.setState({
+            selectedBtn:'currentMonth'
+          })
+        }}>本月订单</Button>
+        <Button type={this.state.selectedBtn==='all'?'primary':''} onClick={()=>{
+          this.props.fetchOrderData({
+            dateValue:{
+              timeStart:1262278861000,
+              timeEnd:new Date().getTime(),
+              timeName:'finishedTime'
+            }
+          })
+          this.setState({
+            selectedBtn:'all'
+          })
+        }}>所有订单</Button>
         </div>
+        <Table columns={columns}
+               rowKey={record => record.id}
+               dataSource={this.props.orderData}
+               pagination={this.props.orderCount}
+               loading={this.state.loading}
+        />
+        {this.state.vipDetailModalVisible?<VipDetail />:null}
+        {this.state.operatorDetailModalVisible?<OperatorDetail />:null}
+        {this.state.orderDetailModalVisible?<OrderDetail />:null}
+      </div>
     );
   }
 }

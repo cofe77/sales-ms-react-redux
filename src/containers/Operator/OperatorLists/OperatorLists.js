@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button,Breadcrumb,Table,message,Modal } from 'antd';
+import { Button,Table,Modal } from 'antd';
 import './OperatorLists.css';
 
 import {fetchOperatorData,setActiveOperatorData,deleteOperator} from '../../../redux/operator.redux'
@@ -7,7 +7,6 @@ import {connect} from 'react-redux'
 
 import moment from 'moment'
 
-import OperatorUpdate from '../OperatorUpdate/OperatorUpdate'
 import ChangePwd from '../../../components/changePwd/changePwd'
 
 const confirm=Modal.confirm
@@ -28,7 +27,7 @@ class OperatorLists extends Component {
     this._handleDeleteOperator=this._handleDeleteOperator.bind(this)
   }
   componentWillMount() {
-    if(this.props.operatorCount==0){
+    if(this.props.operatorCount===0){
       this.props.fetchOperatorData();
     }
   }
@@ -85,48 +84,48 @@ class OperatorLists extends Component {
     }, {
       title: '操作',
       render: (text, record) => (
-          <div>
-            <Button onClick={()=>{
-              this.props.setActiveOperatorData(record)
-              this.props.history.push('/home/operatorManage/operatorUpdate')
-            }} type="primary" size="small">修改信息</Button>
-            <Button onClick={()=>{
-              this.props.setActiveOperatorData(record)
-              this.setState({
-                changePwdModalVisible:true
-              })
-            }} type="primary" size="small">修改密码</Button>
-            <Button onClick={()=>this._handleDeleteOperator(record)} type="danger" size="small">删除</Button>
-          </div>
+        <div>
+          <Button onClick={()=>{
+            this.props.setActiveOperatorData(record)
+            this.props.history.push('/home/operatorManage/operatorUpdate')
+          }} type="primary" size="small">修改信息</Button>
+          <Button onClick={()=>{
+            this.props.setActiveOperatorData(record)
+            this.setState({
+              changePwdModalVisible:true
+            })
+          }} type="primary" size="small">修改密码</Button>
+          <Button onClick={()=>this._handleDeleteOperator(record)} type="danger" size="small">删除</Button>
+        </div>
       ),
     }];
 
     return (
-        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <Button size="large" type={'primary'} onClick={()=>{
-            this.props.setActiveOperatorData({id:-1})
-            this.props.history.push('/home/operatorManage/operatorUpdate')
-          }}>添加操作员</Button>
-          <Table columns={columns}
-                 rowKey={record => record.id}
-                 dataSource={this.props.operatorData}
-                 pagination={this.props.operatorCount}
-                 loading={this.state.loading}
+      <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+        <Button size="large" type={'primary'} onClick={()=>{
+          this.props.setActiveOperatorData({id:-1})
+          this.props.history.push('/home/operatorManage/operatorUpdate')
+        }}>添加操作员</Button>
+        <Table columns={columns}
+               rowKey={record => record.id}
+               dataSource={this.props.operatorData}
+               pagination={this.props.operatorCount}
+               loading={this.state.loading}
+        />
+        {this.props.activeOperatorId>-1?(
+          <ChangePwd
+              title={`修改管理员${this.props.activeOperatorData.name}的密码`}
+              visible={this.state.changePwdModalVisible}
+              forWitch={{type:'operator',id:this.props.activeOperatorId}}
+              hideChangePwd={()=>{
+                this.setState({
+                  changePwdModalVisible:false
+                })
+              }}
+              key={new Date()}
           />
-          {this.props.activeOperatorId>-1?(
-              <ChangePwd
-                  title={`修改管理员${this.props.activeOperatorData.name}的密码`}
-                  visible={this.state.changePwdModalVisible}
-                  forWitch={{type:'operator',id:this.props.activeOperatorId}}
-                  hideChangePwd={()=>{
-                    this.setState({
-                      changePwdModalVisible:false
-                    })
-                  }}
-                  key={new Date()}
-              />
-          ):null}
-        </div>
+        ):null}
+      </div>
     );
   }
 }

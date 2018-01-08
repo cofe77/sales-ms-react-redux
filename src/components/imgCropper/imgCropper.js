@@ -39,25 +39,25 @@ class ImgCropper extends React.Component{
   }
   render(){
     return (
-        <Modal
-            title="选择商品图片"
-            visible={this.props.visible}
-            okText="确认裁剪"
-            cancelText="取消"
-            onOk={this.cropImage}
-            onCancel={this.props._handleCancelCropper}
-        >
-          <input type="file" onChange={this.onChange} />
-          
-          <Cropper
-              style={{ height: 400, width: '100%' }}
-              aspectRatio={1}
-              preview=".img-preview"
-              guides={false}
-              src={this.state.src}
-              ref={cropper => { this.cropper = cropper; }}
-          />
-        </Modal>
+      <Modal
+          title="选择商品图片"
+          visible={this.props.visible}
+          okText="确认裁剪"
+          cancelText="取消"
+          onOk={this.cropImage}
+          onCancel={this.props._handleCancelCropper}
+      >
+        <input type="file" onChange={this.onChange} />
+
+        <Cropper
+            style={{ height: 400, width: '100%' }}
+            aspectRatio={1}
+            preview=".img-preview"
+            guides={false}
+            src={this.state.src}
+            ref={cropper => { this.cropper = cropper; }}
+        />
+      </Modal>
     )
   }
 }

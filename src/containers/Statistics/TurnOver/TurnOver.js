@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button,Breadcrumb,DatePicker } from 'antd';
+import { Button,DatePicker } from 'antd';
 import { LineChart,Line,XAxis,YAxis,CartesianGrid,Tooltip,Legend } from 'recharts'
 import {connect} from 'react-redux'
 import { fetchStatisticsData } from '../../../redux/statistics.redux'
@@ -88,37 +88,37 @@ class TurnOver extends Component {
 
   render() {
     return (
-        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-          <div>
-            <h2>营业详情</h2>
-          </div>
-          <div style={{ marginBottom:10}}>
-            <MonthPicker
-                defaultValue={moment('2018/01',"YYYY-MM")}
-                format="YYYY-MM"
-                onChange={this._onDatePickerChange}
-            />
-            <Button style={{ marginLeft:10}} type={this.state.selectedBtn==='lastSevenDays'?'primary':''} onClick={()=>{
-              this.fetchLastSevenDays()
-            }}>过去七天</Button>
-            <Button type={this.state.selectedBtn==='lastThirtyDays'?'primary':''} onClick={()=>{
-              this.fetchLastThirtyDays()
-            }}>过去30天</Button>
-          </div>
-          <LineChart width={1300} height={500} data={this.props.orderData}>
-            <CartesianGrid stroke="#ccc" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip/>
-            <Legend />
-            <Line type="monotone" dataKey="订单总价格" stroke="#8884d8" />
-            <Line type="monotone" dataKey="现金实收" stroke="#82ca9d" />
-            <Line type="monotone" dataKey="微信支付宝实收" stroke="red" />
-            <Line type="monotone" dataKey="会员余额抵扣" stroke="green" />
-            <Line type="monotone" dataKey="划零优惠" stroke="pink" />
-            <Line type="monotone" dataKey="存酒抵扣" stroke="black" />
-          </LineChart>
+      <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+        <div>
+          <h2>营业详情</h2>
         </div>
+        <div style={{ marginBottom:10}}>
+          <MonthPicker
+              defaultValue={moment('2018/01',"YYYY-MM")}
+              format="YYYY-MM"
+              onChange={this._onDatePickerChange}
+          />
+          <Button style={{ marginLeft:10}} type={this.state.selectedBtn==='lastSevenDays'?'primary':''} onClick={()=>{
+            this.fetchLastSevenDays()
+          }}>过去七天</Button>
+          <Button type={this.state.selectedBtn==='lastThirtyDays'?'primary':''} onClick={()=>{
+            this.fetchLastThirtyDays()
+          }}>过去30天</Button>
+        </div>
+        <LineChart width={1300} height={500} data={this.props.orderData}>
+          <CartesianGrid stroke="#ccc" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip/>
+          <Legend />
+          <Line type="monotone" dataKey="订单总价格" stroke="#8884d8" />
+          <Line type="monotone" dataKey="现金实收" stroke="#82ca9d" />
+          <Line type="monotone" dataKey="微信支付宝实收" stroke="red" />
+          <Line type="monotone" dataKey="会员余额抵扣" stroke="green" />
+          <Line type="monotone" dataKey="划零优惠" stroke="pink" />
+          <Line type="monotone" dataKey="存酒抵扣" stroke="black" />
+        </LineChart>
+      </div>
     );
   }
 }

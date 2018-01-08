@@ -23,36 +23,36 @@ class LoginForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-        <div className="login-page">
-          <div className="login-box">
-            <div className="login-title-box">
-              <span className="login-title">
-                欢迎来到SalesMS，请登录！
-              </span>
-            </div>
-            <Form onSubmit={this._handleSubmit.bind(this)} className="login-form">
-              <FormItem>
-                {getFieldDecorator('userName', {
-                  rules: [{ required: true, message: '请输入用户名!' }],
-                })(
-                    <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="请输入用户名" />
-                )}
-              </FormItem>
-              <FormItem>
-                {getFieldDecorator('password', {
-                  rules: [{ required: true, message: '请输入密码!' }],
-                })(
-                    <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="请输入密码" />
-                )}
-              </FormItem>
-              <FormItem>
-                <Button type="primary" htmlType="submit" className="login-form-button pull-right">
-                  登录
-                </Button>
-              </FormItem>
-            </Form>
+      <div className="login-page">
+        <div className="login-box">
+          <div className="login-title-box">
+            <span className="login-title">
+              欢迎来到SalesMS，请登录！
+            </span>
           </div>
+          <Form onSubmit={this._handleSubmit.bind(this)} className="login-form">
+            <FormItem>
+              {getFieldDecorator('userName', {
+                rules: [{ required: true, message: '请输入用户名!' }],
+              })(
+                  <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="请输入用户名" />
+              )}
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator('password', {
+                rules: [{ required: true, message: '请输入密码!' }],
+              })(
+                  <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="请输入密码" />
+              )}
+            </FormItem>
+            <FormItem>
+              <Button type="primary" htmlType="submit" className="login-form-button pull-right">
+                登录
+              </Button>
+            </FormItem>
+          </Form>
         </div>
+      </div>
     );
   }
 }
